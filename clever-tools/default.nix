@@ -1,15 +1,15 @@
-{ stdenv, fetchurl, glibc }:
+{ stdenv, fetchurl, glibc, lib, version, sha256 }:
 
 stdenv.mkDerivation rec {
   name = "clever-tools-${version}";
-  version = "2.6.1";
+  inherit version;
 
   src = fetchurl {
     url = "https://clever-tools.clever-cloud.com/releases/${version}/clever-tools-${version}_linux.tar.gz";
-    sha256 = "1a0skvqs9mpvdy2b35nqv3p2nrdxhi40li3kib41zf1kjzhrlx8a";
+    inherit sha256;
   };
 
-  libPath = stdenv.lib.makeLibraryPath [ stdenv.cc.cc glibc ];
+  libPath = lib.makeLibraryPath [ stdenv.cc.cc glibc ];
 
   unpackPhase = ''
     tar --extract --file=$src
